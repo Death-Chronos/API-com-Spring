@@ -43,7 +43,7 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductModel>> getALlProducts() {
+    public ResponseEntity<List<ProductModel>> getAllProducts() {
         List<ProductModel> productsList = productRepository.findAll();
 
         if (!productsList.isEmpty()){
@@ -65,8 +65,8 @@ public class ProductController {
         if (product0.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
             // verifica se recebeu alguma coisa, caso não, retorna que não achou.
-
         }
+        product0.get().add(linkTo(methodOn(ProductController.class).getAllProducts()).withRel("Products List"));
         return ResponseEntity.status(HttpStatus.OK).body(product0.get()); // Retorna o produto caso o tenha achado.
     }
 
