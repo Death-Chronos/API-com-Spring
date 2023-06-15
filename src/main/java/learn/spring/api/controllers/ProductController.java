@@ -14,13 +14,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import learn.spring.api.dtos.ProductRecordDTO;
 import learn.spring.api.models.ProductModel;
 import learn.spring.api.repositorys.ProductRepository;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+//Por algum motivo a IDE não aceitou esses metodos, então tive que forçar o import
+
+
 
 @RestController
 public class ProductController {
@@ -39,7 +44,16 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductModel>> getALlProducts() {
-        return ResponseEntity.status(HttpStatus.OK).body(productRepository.findAll());
+        List<ProductModel> productsList = productRepository.findAll();
+
+        if (!productsList.isEmpty()){
+            for (ProductModel product : productsList) {
+                UUID id = product.getIdProduct();
+                product.add(linkTo(methodOn(ProductController.class).getOneProduct(id)).withSelfRel());
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(productsList);
         // retorna o estado HTTP, junto com todos os produtos cadastrados
     }
 
