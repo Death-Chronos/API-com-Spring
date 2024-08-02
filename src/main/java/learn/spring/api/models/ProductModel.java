@@ -6,11 +6,12 @@ import java.util.UUID;
 
 import org.springframework.hateoas.RepresentationModel;
 
-import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TB_PRODUCTS")
@@ -22,6 +23,8 @@ public class ProductModel extends RepresentationModel<ProductModel> implements S
     private UUID idProduct;
 
     private String name;
+    
+    @Column(precision = 6, scale = 4) //Corno véi do JPA não tava conseguindo fazer a conversão com BigDecimal, então eu facilitei pra ele
     private BigDecimal value;
     
     public UUID getIdProduct() {
