@@ -1,12 +1,10 @@
 package learn.spring.api.models;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.UUID;
 
 import org.springframework.hateoas.RepresentationModel;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,8 +22,8 @@ public class ProductModel extends RepresentationModel<ProductModel> implements S
 
     private String name;
     
-    @Column(precision = 6, scale = 4) //Corno véi do JPA não tava conseguindo fazer a conversão com BigDecimal, então eu facilitei pra ele
-    private BigDecimal value;
+    //@Column(precision = 6, scale = 4) Corno véi do JPA não tava conseguindo fazer a conversão com BigDecimal, então eu facilitei pra ele(No final, não deu certo)
+    private Double value;
     
     public UUID getIdProduct() {
         return idProduct;
@@ -39,10 +37,10 @@ public class ProductModel extends RepresentationModel<ProductModel> implements S
     public void setName(String name) {
         this.name = name;
     }
-    public BigDecimal getValue() {
+    public Double getValue() {
         return value;
     }
-    public void setValue(BigDecimal value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 
