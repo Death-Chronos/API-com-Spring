@@ -11,6 +11,7 @@ import learn.spring.api.models.Role;
 import learn.spring.api.models.Usuario;
 import learn.spring.api.repositorys.RoleRepository;
 import learn.spring.api.repositorys.UserRepository;
+import learn.spring.api.security.MyUserDetailsService;
 
 @Configuration
 public class AdminCreator implements CommandLineRunner {
@@ -22,21 +23,22 @@ public class AdminCreator implements CommandLineRunner {
     RoleRepository roleRepo;
 
     @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+    MyUserDetailsService userService;
 
     @Override
     public void run(String... args) throws Exception {
         if (!repo.existsByEmail("jv@gmail.com")) {
-            Usuario adm = new Usuario("jv@gmail.com",passwordEncoder.encode("12345678"));
+
+
+            Usuario adm = new Usuario("jv@gmail.com","12345678");
 
             HashSet<Role> roles = new HashSet<Role>();
-            Role role = new Role("ADMIN");
+            Role role = new Role("ROLE_ADMIN");
             roles.add(role);
-
             roleRepo.save(role);
 
             adm.setRoles(roles);
-            repo.save(adm);
+            userService.save(adm);
         }else{
             System.out.println("Admin já existe");
         }
