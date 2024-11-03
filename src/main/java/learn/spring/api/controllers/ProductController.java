@@ -1,5 +1,9 @@
 package learn.spring.api.controllers;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+//Por algum motivo a IDE não aceitou esses metodos, então tive que forçar o import
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,10 +25,6 @@ import learn.spring.api.dtos.ProductRecordDTO;
 import learn.spring.api.models.ProductModel;
 import learn.spring.api.repositorys.ProductRepository;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-//Por algum motivo a IDE não aceitou esses metodos, então tive que forçar o import
-
 
 
 @RestController
@@ -32,6 +32,7 @@ public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
+
 
     @PostMapping("/products") // URL bem definida
     public ResponseEntity<ProductModel> saveProduct(@RequestBody @Valid ProductRecordDTO productRecordDTO) {
@@ -87,7 +88,7 @@ public class ProductController {
 
     }
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<Object> deleteProduct(@PathVariable(value = "id") UUID id) {
         Optional<ProductModel> product0 = productRepository.findById(id); // Procura o produto no repositorio usando o ID 
 
